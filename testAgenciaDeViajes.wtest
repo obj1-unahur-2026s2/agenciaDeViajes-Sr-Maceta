@@ -1,0 +1,100 @@
+import agenciaDeViajes.*
+
+
+describe "Test pack nacional e intarnacional" {
+    test "Un pack nacional sin beneficios vigentes devuelve el mismo precio base." {
+        const c1 = new Coordinador(
+            cantidadDeViajesRealizados = 1,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Guia"
+        )
+
+        const pack1 = new PackNacional(
+            duracion = 1,
+            precio = 10,
+            beneficios = [],
+            coordinador = c1,
+            provinciaDestino = "misiones",
+            actividades = []
+        )
+        assert.equals(10, pack1.valorFinal())
+    }
+    test "Un pack nacional con 2 beneficios vigentes suma correctamente sus costos al precio base." {
+        const c1 = new Coordinador(
+            cantidadDeViajesRealizados = 1,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Guia"
+        )
+
+        const b1 = new Beneficio(
+            tipo = "XD",
+            costo = 5,
+            estaVigente = true
+        )
+        const b2 = new Beneficio(
+            tipo = "XD",
+            costo = 5,
+            estaVigente = true
+        )
+
+        const pack1 = new PackNacional(
+            duracion = 1,
+            precio = 10,
+            beneficios = [b1, b2],
+            coordinador = c1,
+            provinciaDestino = "misiones",
+            actividades = []
+        )
+        assert.equals(20, pack1.valorFinal())
+    }
+    test "Un pack internacional sin beneficios vigentes calcula correctamente el total con el 20% de recargo." {
+        const c1 = new Coordinador(
+            cantidadDeViajesRealizados = 1,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Guia"
+        )
+
+        const pack1 = new PackInternacional(
+            duracion = 1,
+            precio = 10,
+            beneficios = [],
+            coordinador = c1,
+            paisDestino = "brasil",
+            cantidadDeEscalas = 1,
+            esLugarDeInteres = true
+        )
+        assert.equals(12, pack1.valorFinal())
+    }
+}
+describe "Test de coordinadores" {
+    test "Un guía motivado con 21 viajes realizados es considerado altamente calificado." {
+        const c1 = new Coordinador(
+            cantidadDeViajesRealizados = 21,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Guia"
+        )
+        assert.that(c1.esAltamenteCalificado())
+    }
+    test "Un asistente logístico con menos de 3 años de experiencia no es calificado, aunque tenga muchos viajes." {
+        const c2 = new Coordinador(
+            cantidadDeViajesRealizados = 21,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Asistente Logistico"
+        )
+        assert.notThat(c2.esAltamenteCalificado())
+    }
+    test "Un acompañante con cualquier cantidad de viajes es siempre calificado si supera los 20." {
+        const c3 = new Coordinador(
+            cantidadDeViajesRealizados = 21,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Acompañante"
+        )
+        assert.that(c3.esAltamenteCalificado())
+    }
+}
