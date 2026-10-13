@@ -33,7 +33,8 @@ class PackNacional inherits Pack {
 }
 
 class PackProvincial inherits PackNacional {
-    const cantidadDeCiudadesAVisitar
+    const cantidadDeCiudadesAVisitar //Numero
+    
     method cantidadDeCiudadesAVisitar() = cantidadDeCiudadesAVisitar
     override method esPremium() = 
         self.actividades().size() >= 4 &&

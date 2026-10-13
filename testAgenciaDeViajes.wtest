@@ -98,3 +98,77 @@ describe "Test de coordinadores" {
         assert.that(c3.esAltamenteCalificado())
     }
 }
+describe "Test de pack premium" {
+    test "Es premium cumple las candiciones" {
+        const c1 = new Coordinador(
+            cantidadDeViajesRealizados = 21,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Guia"
+        )
+
+        const pack1 = new PackNacional(
+            duracion = 11,
+            precio = 10,
+            beneficios = [],
+            coordinador = c1,
+            provinciaDestino = "misiones",
+            actividades = []
+        )
+        assert.that(pack1.esPremium())
+    }
+    test "No es premium tiene 10 dias de duracion" {
+        const c1 = new Coordinador(
+            cantidadDeViajesRealizados = 21,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Guia"
+        )
+
+        const pack1 = new PackNacional(
+            duracion = 10,
+            precio = 10,
+            beneficios = [],
+            coordinador = c1,
+            provinciaDestino = "misiones",
+            actividades = []
+        )
+        assert.notThat(pack1.esPremium())
+    }
+    test "No es premium el coordinador no es altamente calificado" {
+        const c2 = new Coordinador(
+            cantidadDeViajesRealizados = 21,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Asistente Logistico"
+        )
+
+        const pack1 = new PackNacional(
+            duracion = 20,
+            precio = 10,
+            beneficios = [],
+            coordinador = c2,
+            provinciaDestino = "misiones",
+            actividades = []
+        )
+        assert.notThat(pack1.esPremium())
+    }
+    test "Es pack premium cumple las condiciones" {
+        const c2 = new Coordinador(
+            cantidadDeViajesRealizados = 21,
+            añosDeExperiencia = 1,
+            estaMotivado = true,
+            rol = "Asistente Logistico"
+        )
+        const pack1 = new PackInternacional(
+            duracion = 21,
+            precio = 10,
+            beneficios = [],
+            coordinador = c2,
+            paisDestino = "brasil",
+            cantidadDeEscalas = 0,
+            esLugarDeInteres = true
+        )
+        assert.that(pack1.esPremium())
+    }
+}
